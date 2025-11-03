@@ -102,7 +102,7 @@ public class UserController {
     public ResponseEntity<String> removeFromWatchList(@PathVariable int book_id){
         if(userService.removeFromWatchList(book_id)){
             return ResponseEntity.ok("Book removed from Bookmarked List");
-        };
+        }
         return ResponseEntity.ok("Book isn't in your Bookmarked List");
     }
 
