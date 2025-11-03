@@ -18,18 +18,19 @@ public class Book {
     private String title;
     private String author;
     private String genre;
+    private int likes;
 
 //    @ManyToMany(mappedBy = "readBooks")
 //    private Set<Users> usersRead = new HashSet<>();
 
-    public Book(String title, String author, String genre) {
+    public Book(String title, String author, String genre, int likes) {
         this.genre = genre;
         this.author = author;
         this.title = title;
+        this.likes = likes;
     }
 
-    public Book() {
-
+    public Book(){
     }
 
     public String getTitle() {
@@ -81,4 +82,11 @@ public class Book {
     }
 
 
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
 }

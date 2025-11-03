@@ -14,7 +14,7 @@ public class BookServices {
     @Autowired
     BookServices(BookRepository bookRepository) {
         this.bookRepository =bookRepository;
-    };
+    }
 
     public List<Book> getBooks() {
         return bookRepository.findAll();
@@ -24,12 +24,15 @@ public class BookServices {
         bookRepository.save(book);
     }
     public void updateBook(Book book) {
-
-//        bookRepository.save(book);
+        bookRepository.save(book);
     }
 
     public void deleteBook(int id) {
         bookRepository.deleteById(id);
+    }
+
+    public List<Book> getBokByGenre(String genre) {
+        return bookRepository.findBookByGenre(genre);
     }
 }
 

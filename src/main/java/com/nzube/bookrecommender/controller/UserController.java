@@ -3,6 +3,7 @@ package com.nzube.bookrecommender.controller;
 
 
 
+import com.nzube.bookrecommender.model.Book;
 import com.nzube.bookrecommender.services.UserService;
 import com.nzube.bookrecommender.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -72,7 +74,7 @@ public class UserController {
     }
 
     //ADD A BOOK A USER READ TO USER LIKED BOOKS
-    @PostMapping("like/{book_id}")
+    @PostMapping("/like/{book_id}")
     public ResponseEntity<String> addLikedBook(@PathVariable int book_id){
         boolean response = userService.addLikeBook(book_id);
         if(response){
@@ -83,6 +85,28 @@ public class UserController {
 
     }
 
+    //ADD A BOOK TO WATCHLIST
+    @PostMapping("/watchList/{book_id}")
+    public ResponseEntity<String> addToWatchList(@PathVariable int book_id){
+        boolean response = userService.addToWatchList(book_id);
+        if(response){
+            return ResponseEntity.ok("Bookmarked successfully");
+        }
+        return ResponseEntity.badRequest().body("Book wasn't found");
+
+
+    }
+
+    //GET USERS LIKED BOOKS
+    @GetMapping("/user/likedBooks")
+    public Set<Book> getLikedBooks() {
+        return userService.getLikedBooks();
+    }
+    //GET USERS READ BOOKS
+    @GetMapping("/user/readBooks")
+    public Set<Book> getReadBooks() {
+        return userService.getReadBooks();
+    }
     //UPDATE USER MAIN GENRES
     @PatchMapping("/updateGenre")
     public ResponseEntity<String> updateGenre(@RequestBody Map<String, String> genre){

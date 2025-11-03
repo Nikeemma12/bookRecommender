@@ -91,7 +91,21 @@ public class UserService {
         Users user = getCurrentUser();
         Book likedBook = bookRepository.findById(bookId).orElseThrow(()->new RuntimeException("Book not found"));
         if(user.getReadBooks().contains(likedBook)){
+            likedBook.setLikes(likedBook.getLikes()+1);
             user.getLikedBooks().add(likedBook);
+            bookRepository.save(likedBook);
+            usersRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    //ADD BOOK TO WATCHLIST
+    public boolean addToWatchList(int bookId) {
+        Users user = getCurrentUser();
+        Book bookToRead = bookRepository.findById(bookId).orElse(null);
+        if(bookToRead!=null){
+            user.getWatchListBooks().add(bookToRead);
             usersRepository.save(user);
             return true;
         }
@@ -114,7 +128,6 @@ public class UserService {
            usersRepository.save(user);
        }
     }
-
     //UPDATE USER MAIN GENRE
     public boolean updateMainGenre(Map<String, String> request) {
         Users user = getCurrentUser();
@@ -137,5 +150,17 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    //GET USERS LIKED BOOKS
+    public Set<Book> getLikedBooks() {
+        Users user = getCurrentUser();
+        return user.getLikedBooks();
+    }
+
+    //GET USERS READ BOOKS
+    public Set<Book> getReadBooks() {
+        Users user = getCurrentUser();
+        return user.getReadBooks();
     }
 }

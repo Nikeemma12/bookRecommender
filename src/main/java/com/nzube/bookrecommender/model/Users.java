@@ -43,6 +43,13 @@ public class Users {
     )
     private Set<Book> likedBooks = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(name = "Book_ to_ read",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private Set<Book> watchListBooks = new HashSet<>();
+
     @ElementCollection
     @CollectionTable(name="Users Genres", joinColumns = @JoinColumn(name="user_id"))
     @Column(name="genre")
@@ -162,5 +169,13 @@ public class Users {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public Set<Book> getWatchListBooks() {
+        return watchListBooks;
+    }
+
+    public void setWatchListBooks(Set<Book> watchListBooks) {
+        this.watchListBooks = watchListBooks;
     }
 }
