@@ -1,11 +1,11 @@
 package com.nzube.bookrecommender.model;
 
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
+
+
 import java.util.Objects;
-import java.util.Set;
+
 
 
 @Entity
@@ -19,15 +19,17 @@ public class Book {
     private String author;
     private String genre;
     private int likes;
+    private String description;
 
 //    @ManyToMany(mappedBy = "readBooks")
 //    private Set<Users> usersRead = new HashSet<>();
 
-    public Book(String title, String author, String genre, int likes) {
+    public Book(String title, String author, String genre, int likes, String description) {
         this.genre = genre;
         this.author = author;
         this.title = title;
         this.likes = likes;
+        this.description = description;
     }
 
     public Book(){
@@ -88,5 +90,13 @@ public class Book {
 
     public void setLikes(int likes) {
         this.likes = likes;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
