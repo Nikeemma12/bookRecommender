@@ -97,15 +97,40 @@ public class UserController {
 
     }
 
+    //DELETE A BOOK FROM WATCHLIST
+    @DeleteMapping("/watchlist/{book_id}")
+    public ResponseEntity<String> removeFromWatchList(@PathVariable int book_id){
+        if(userService.removeFromWatchList(book_id)){
+            return ResponseEntity.ok("Book removed from Bookmarked List");
+        };
+        return ResponseEntity.ok("Book isn't in your Bookmarked List");
+    }
+
+    //CHECK BOOKMARK STATUS OF A BOOK
+    @GetMapping("/watchList/status/{book_id}")
+    public ResponseEntity<Boolean> getBookmarkStaus(@PathVariable  int book_id){
+        boolean found = userService.getBookMarkStatus(book_id);
+        if(found){
+            return ResponseEntity.ok(true);
+        }
+        return ResponseEntity.ok(false);
+
+    }
     //GET USERS LIKED BOOKS
-    @GetMapping("/user/likedBooks")
+    @GetMapping("/likedBooks")
     public Set<Book> getLikedBooks() {
         return userService.getLikedBooks();
     }
     //GET USERS READ BOOKS
-    @GetMapping("/user/readBooks")
+    @GetMapping("/readBooks")
     public Set<Book> getReadBooks() {
         return userService.getReadBooks();
+    }
+
+    //GET WATCH LIST
+    @GetMapping("/watchlist")
+    public Set<Book> getWatchList() {
+        return userService.getWatchList();
     }
     //UPDATE USER MAIN GENRES
     @PatchMapping("/updateGenre")

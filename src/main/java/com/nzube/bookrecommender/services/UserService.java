@@ -163,4 +163,28 @@ public class UserService {
         Users user = getCurrentUser();
         return user.getReadBooks();
     }
+
+    //GET BOOKMARK STATUS
+    public boolean getBookMarkStatus(int bookId) {
+        Users user = getCurrentUser();
+        Book book = bookRepository.findById(bookId).orElse(null);
+        return user.getWatchListBooks().contains(book);
+    }
+
+    //GET BOOKS IN WATCH LIST
+    public Set<Book> getWatchList() {
+        Users user = getCurrentUser();
+        return user.getWatchListBooks();
+    }
+
+    public boolean removeFromWatchList(int bookId) {
+        Users user = getCurrentUser();
+        Book book = bookRepository.findById(bookId).orElse(null);
+        if(user.getWatchListBooks().contains(book)){
+            user.getWatchListBooks().remove(book);
+            usersRepository.save(user);
+            return true;
+        }
+        return false;
+    }
 }
