@@ -22,7 +22,7 @@ public class BookController {
 
     @PreAuthorize("hasAnyRole('USERS', 'ADMIN')")
     @GetMapping("/books")
-    public ResponseEntity<List<Book>> getBooks() {
+        public ResponseEntity<List<Book>> getBooks() {
         return new ResponseEntity<>(bookServices.getBooks(), HttpStatus.OK);
     }
 

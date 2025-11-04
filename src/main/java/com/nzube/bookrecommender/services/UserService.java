@@ -91,10 +91,11 @@ public class UserService {
         Users user = getCurrentUser();
         Book likedBook = bookRepository.findById(bookId).orElseThrow(()->new RuntimeException("Book not found"));
         if(user.getReadBooks().contains(likedBook)){
-            likedBook.setLikes(likedBook.getLikes()+1);
             user.getLikedBooks().add(likedBook);
+            likedBook.setLikes(likedBook.getLikes()+1);
             bookRepository.save(likedBook);
             usersRepository.save(user);
+            bookRepository.save(likedBook);
             return true;
         }
         return false;
@@ -177,6 +178,7 @@ public class UserService {
         return user.getWatchListBooks();
     }
 
+    //DELETE BOOK FROM WATCH LIST
     public boolean removeFromWatchList(int bookId) {
         Users user = getCurrentUser();
         Book book = bookRepository.findById(bookId).orElse(null);
@@ -186,5 +188,37 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    public boolean getBookLikedStatus(int bookId) {
+        Users user = getCurrentUser();
+        Book book = bookRepository.findById(bookId).orElse(null);
+        return user.getLikedBooks().contains(book);
+    }
+
+    public boolean removeFromLikedBooks(int bookId) {
+        Users user = getCurrentUser();
+        Book likedBook = bookRepository.findById(bookId).orElse(null);
+        if(user.getLikedBooks().contains(likedBook) && likedBook!=null){
+            likedBook.setLikes(likedBook.getLikes()-1);
+            user.getLikedBooks().remove(likedBook);
+            usersRepository.save(user);
+            bookRepository.save(likedBook);
+            return true;
+        }
+        return false;
+    }
+
+    public List<Book> searchBook(String title) {
+        List<Book> books = bookRepository.findAll();
+        List<Book> searchBook = new ArrayList<>(List.of());
+        for(Book book : books){
+            String book_title = book.getTitle().toLowerCase();
+            title = title.toLowerCase();
+            if(book_title.contains(title)){
+                searchBook.add(book);
+            }
+        }
+        return searchBook;
     }
 }

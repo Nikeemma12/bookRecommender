@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -80,7 +79,7 @@ public class UserController {
         if(response){
             return ResponseEntity.ok("Added to liked books successfully");
         }
-        return ResponseEntity.badRequest().body("Book can't be added either because you haven't read it or book wasn't found");
+        return ResponseEntity.badRequest().body("Book can't be added either because you haven't read it or book isn't available");
 
 
     }
@@ -97,13 +96,22 @@ public class UserController {
 
     }
 
+    //DELETE A BOOK FROM LIKED BOOKS
+    @DeleteMapping("/like/{book_id}")
+    public ResponseEntity<String> removeFromLikedBooks(@PathVariable int book_id){
+        if(userService.removeFromLikedBooks(book_id)){
+            return ResponseEntity.ok("Book removed from liked List");
+        }
+        return ResponseEntity.badRequest().body("Book isn't in your liked List");
+    }
+
     //DELETE A BOOK FROM WATCHLIST
     @DeleteMapping("/watchlist/{book_id}")
     public ResponseEntity<String> removeFromWatchList(@PathVariable int book_id){
         if(userService.removeFromWatchList(book_id)){
             return ResponseEntity.ok("Book removed from Bookmarked List");
         }
-        return ResponseEntity.ok("Book isn't in your Bookmarked List");
+        return ResponseEntity.badRequest().body("Book isn't in your Bookmarked List");
     }
 
     //CHECK BOOKMARK STATUS OF A BOOK
@@ -116,11 +124,24 @@ public class UserController {
         return ResponseEntity.ok(false);
 
     }
+
+    //CHECK STATUS OF BOOKS LIKED BY A USER
+    @GetMapping("/likedBooks/status/{book_id}")
+    public ResponseEntity<Boolean> getBookLikedStatus(@PathVariable  int book_id){
+        boolean found = userService.getBookLikedStatus(book_id);
+        if(found){
+            return ResponseEntity.ok(true);
+        }
+        return ResponseEntity.ok(false);
+
+    }
+
     //GET USERS LIKED BOOKS
     @GetMapping("/likedBooks")
     public Set<Book> getLikedBooks() {
         return userService.getLikedBooks();
     }
+
     //GET USERS READ BOOKS
     @GetMapping("/readBooks")
     public Set<Book> getReadBooks() {
@@ -132,6 +153,7 @@ public class UserController {
     public Set<Book> getWatchList() {
         return userService.getWatchList();
     }
+
     //UPDATE USER MAIN GENRES
     @PatchMapping("/updateGenre")
     public ResponseEntity<String> updateGenre(@RequestBody Map<String, String> genre){
@@ -160,6 +182,15 @@ public class UserController {
     public void addUserToBookClub(@PathVariable int userId, @PathVariable int bookClubId){
         userService.addUserToBookClub(userId,bookClubId);
 
+    }
+
+    //SEARCH BOOKS
+    @GetMapping("/search/{title}")
+    public List<Book> searchBook (@PathVariable String title){
+        if(!userService.searchBook(title).isEmpty()){
+            return  userService.searchBook(title);
+        }
+        return null;
     }
 
 }
