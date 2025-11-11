@@ -124,7 +124,7 @@ public class UserService {
         BookClub bookClub= bookClubRepository.findById(bookClubId).orElse(null);
         Users user = usersRepository.findById(userId).orElse(null);
 
-       if(user!=null && bookClub!=null && (user.getMainGenre().equals(bookClub.getGenre()) || user.getOtherGenre().contains(bookClub.getGenre()))){
+       if(user!=null && bookClub!=null && (user.getMainGenre().equals(bookClub.getGenre()) || user.getOtherGenres().contains(bookClub.getGenre()))){
            user.getBookClub().add(bookClub);
            usersRepository.save(user);
        }
@@ -146,7 +146,7 @@ public class UserService {
         Users user = getCurrentUser();
         if(request.containsKey("otherGenre")){
             String otherGenre = request.get("otherGenre");
-            user.getOtherGenre().add(otherGenre);
+            user.getOtherGenres().add(otherGenre);
             usersRepository.save(user);
             return true;
         }
@@ -220,5 +220,10 @@ public class UserService {
             }
         }
         return searchBook;
+    }
+
+    public Set<BookClub> getUsersBookClub() {
+        Users user = getCurrentUser();
+        return user.getBookClub();
     }
 }

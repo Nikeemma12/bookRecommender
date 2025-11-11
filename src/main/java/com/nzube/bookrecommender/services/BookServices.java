@@ -11,18 +11,24 @@ import java.util.*;
 public class BookServices {
 
     private final BookRepository bookRepository;
+
     @Autowired
     BookServices(BookRepository bookRepository) {
-        this.bookRepository =bookRepository;
+        this.bookRepository = bookRepository;
     }
 
     public List<Book> getBooks() {
         return bookRepository.findAll();
     }
 
-    public void addBook(Book book){
+    public Book getBookById(int id) {
+        return bookRepository.getBookById(id);
+    }
+
+    public void addBook(Book book) {
         bookRepository.save(book);
     }
+
     public void updateBook(Book book) {
         bookRepository.save(book);
     }

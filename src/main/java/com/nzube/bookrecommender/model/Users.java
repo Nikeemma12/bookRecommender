@@ -1,11 +1,16 @@
 package com.nzube.bookrecommender.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 
+@Getter
+@Setter
 @Entity
 public class Users {
 
@@ -70,92 +75,6 @@ public class Users {
     }
 
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Set<Book> getLikedBooks() {
-        return likedBooks;
-    }
-
-    public void setLikedBooks(Set<Book> likedBooks) {
-        this.likedBooks = likedBooks;
-    }
-
-    public Set<Book> getReadBooks() {
-        return readBooks;
-    }
-
-    public void setReadBooks(Set<Book> readBooks) {
-        this.readBooks = readBooks;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getMainGenre() {
-        return mainGenre;
-    }
-    public void setMainGenre(String mainGenre){
-        this.mainGenre = mainGenre;
-    }
-
-    public Set<String> getOtherGenre() {
-        return otherGenres;
-    }
-    public void setOtherGenre(Set<String> otherGenre){
-        this.otherGenres = otherGenre;
-    }
-
-
-    public Set<BookClub> getBookClub() {
-        return bookClub;
-    }
-
-    public void setBookClub(Set<BookClub> bookClub) {
-        this.bookClub = bookClub;
-    }
 
 
     @Override
@@ -171,11 +90,5 @@ public class Users {
         return Objects.hash(id);
     }
 
-    public Set<Book> getWatchListBooks() {
-        return watchListBooks;
-    }
 
-    public void setWatchListBooks(Set<Book> watchListBooks) {
-        this.watchListBooks = watchListBooks;
-    }
 }

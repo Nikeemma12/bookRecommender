@@ -1,13 +1,16 @@
 package com.nzube.bookrecommender.model;
 
 import jakarta.persistence.*;
-
+import lombok.Getter;
+import lombok.Setter;
 
 
 import java.util.Objects;
 
 
 
+@Setter
+@Getter
 @Entity
 public class Book {
 
@@ -20,44 +23,19 @@ public class Book {
     private String genre;
     private int likes;
     private String description;
+    private String content_url;
 
-//    @ManyToMany(mappedBy = "readBooks")
-//    private Set<Users> usersRead = new HashSet<>();
 
-    public Book(String title, String author, String genre, int likes, String description) {
+    public Book(String title, String author, String genre, int likes, String description, String contentUrl) {
         this.genre = genre;
         this.author = author;
         this.title = title;
         this.likes = likes;
         this.description = description;
+        content_url = contentUrl;
     }
 
     public Book(){
-    }
-
-    public String getTitle() {
-        return title;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public String getAuthor() {
-        return author;
-    }
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-    public String getGenre() {
-        return genre;
-    }
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
     }
 
 
@@ -84,19 +62,4 @@ public class Book {
     }
 
 
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

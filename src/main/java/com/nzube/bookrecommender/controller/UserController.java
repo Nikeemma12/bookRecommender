@@ -4,6 +4,7 @@ package com.nzube.bookrecommender.controller;
 
 
 import com.nzube.bookrecommender.model.Book;
+import com.nzube.bookrecommender.model.BookClub;
 import com.nzube.bookrecommender.services.UserService;
 import com.nzube.bookrecommender.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -191,6 +192,11 @@ public class UserController {
             return  userService.searchBook(title);
         }
         return null;
+    }
+    //GET USERS BOOK CLUBS
+    @GetMapping("/book-clubs")
+    public Set<BookClub> getUsersBookClub(){
+        return userService.getUsersBookClub();
     }
 
 }

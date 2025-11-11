@@ -16,28 +16,39 @@ public class BookController {
     private final BookServices bookServices;
 
     @Autowired
-    BookController(BookServices bookServices){
+    BookController(BookServices bookServices) {
         this.bookServices = bookServices;
     }
 
+//    @GetMapping
+//    public List<Books> getBooksByGenre(@RequestParam String genre) {
+//        return bookServices.getBooksByGenre(genre);
+//    }
+
     @PreAuthorize("hasAnyRole('USERS', 'ADMIN')")
     @GetMapping("/books")
-        public ResponseEntity<List<Book>> getBooks() {
+    public ResponseEntity<List<Book>> getBooks() {
         return new ResponseEntity<>(bookServices.getBooks(), HttpStatus.OK);
+    }
+
+    @GetMapping("/book/{id}")
+    public Book getBookById(@PathVariable int id) {
+        return bookServices.getBookById(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addBook")
-    public ResponseEntity<String> addBook(@RequestBody Book book){
-        if(book!=null){
+    public ResponseEntity<String> addBook(@RequestBody Book book) {
+        if (book != null) {
             bookServices.addBook(book);
             return ResponseEntity.ok("Book added successfully");
         }
         return ResponseEntity.badRequest().body("Book title can't be null");
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/updateBook")
-    public ResponseEntity<String> updateBook(@RequestBody Book book){
+    public ResponseEntity<String> updateBook(@RequestBody Book book) {
 
         bookServices.updateBook(book);
         return ResponseEntity.ok("Book updated successfully");
